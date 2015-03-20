@@ -15,29 +15,30 @@ type Post struct {
     slug string
 }
 
-// Filename Functions
-
+// Extract the post date from the filename, which holds the meta data. This
+// avoids including foreign data in the raw post markdown file.
+// Filename format is YYYYMMDD-name-of-post.md
 func (p *Post) SetDateFromFilename(filename string) {
-    // Filename format is YYYYMMDD-name-of-post.md
-
     info := strings.Split(filename, ".md")[0]
     date := info[:4] + "-" + info[4:6] +  "-" + info[6:8]
 
     p.date = date
 }
 
+// Extract the post name from the filename, which holds the meta data. This
+// avoids including foreign data in the raw post markdown file.
+// Filename format is YYYYMMDD-name-of-post.md
 func (p *Post) SetNameFromFilename(filename string) {
-    // Filename format is YYYYMMDD-name-of-post.md
-
     info := strings.Split(filename, ".md")[0]
     name := strings.Replace(info[9:], "-", " ", -1)
 
     p.name = name
 }
 
+// Extract the post slug from the filename, which holds the meta data. This
+// avoids including foreign data in the raw post markdown file.
+// Filename format is YYYYMMDD-name-of-post.md
 func (p *Post) SetSlugFromFilename(filename string) {
-    // Filename format is YYYYMMDD-name-of-post.md
-
     info := strings.Split(filename, ".md")[0]
     slug := strings.ToLower(info[9:])
 
@@ -45,12 +46,10 @@ func (p *Post) SetSlugFromFilename(filename string) {
     p.path = "/" + p.slug
 }
 
-// Content Functions
 
-func (p *Post) SetHtmlFromMarkdown(base []byte, md []byte) {
-    // Using github.com/russross/blackfriday to translate markdown
-
-    html := base
+// Set the post html by first converting the markdown to html and then
+// decorating the result with the base post template.
+func (p *Post) SetHtmlFromMarkdown(html []byte, md []byte) {
     text := blackfriday.MarkdownBasic(md)
 
     html = bytes.Replace(html, []byte("{{ date }}"), []byte(p.date), -1)

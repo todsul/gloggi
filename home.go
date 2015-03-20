@@ -8,22 +8,23 @@ type Home struct {
     html []byte
 }
 
-// Content Functions
-
-func (h *Home) GetHtmlFromPosts(base []byte, snip []byte, posts []*Post) []byte {
-    // Loop through posts and concat snippets
-
-    html := base
-    summary := snip
-
+// Set the home html by looping through the posts, using the summary template
+// to create post summaries, then decorating the result with the base template.
+func (h *Home) GetHtmlFromPosts(html []byte, summ []byte, posts []*Post) []byte {
     var summaries []byte
-    for _, post := range posts {
-        summary = bytes.Replace(summary, []byte("{{ path }}"), []byte(post.path), -1)
-        summary = bytes.Replace(summary, []byte("{{ name }}"), []byte(post.name), -1)
 
-        summaries = append(summaries, summary...)
+    // Loop through Post collection
+    for _, post := range posts {
+        html := summ
+
+        // Replace summary template variables
+        html = bytes.Replace(html, []byte("{{ path }}"), []byte(post.path), -1)
+        html = bytes.Replace(html, []byte("{{ name }}"), []byte(post.name), -1)
+
+        summaries = append(summaries, html...)
     }
 
+    // Replace base template variables
     html = bytes.Replace(html, []byte("{{ posts }}"), summaries, -1)
 
     return html

@@ -5,9 +5,12 @@ import (
     "os"
 )
 
+// Get the root blog directory path as an argument to the main program command
+// line. The format is `gloggi /path/to/blog` and the path must exist.
 func GetArgRootPath() string {
     var dir string
 
+    // Check that an argument exists
     if len(os.Args) > 1 {
         dir = os.Args[1]
     } else {
@@ -15,7 +18,7 @@ func GetArgRootPath() string {
         os.Exit(1)
     }
 
-    // Check that directory exists
+    // Check that the directory exists
     _, err := os.Stat(dir)
     if err != nil {
         fmt.Println("ERROR", err)

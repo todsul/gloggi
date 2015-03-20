@@ -6,15 +6,15 @@ import (
     "time"
 )
 
+// The main gloggi process in a step-by-step format to clean the output,
+// process the raw blog post content, and create index pages.
 func main() {
-
     fmt.Println("*** START ***")
 
     var (
         base []byte
         posts []*Post
         pnme string
-        snip []byte
     )
 
     dir := GetArgRootPath()
@@ -67,13 +67,13 @@ func main() {
     pnme = path.Join(dir, "/src/templates/home.html")
     base = GetFile(pnme)
 
-    // Get the summary snippet
+    // Get the summary template
     pnme = path.Join(dir, "/src/templates/_summary.html")
-    snip = GetFile(pnme)
+    summ := GetFile(pnme)
 
     // Build the home page
     home := new(Home)
-    home.html = home.GetHtmlFromPosts(base, snip, posts)
+    home.html = home.GetHtmlFromPosts(base, summ, posts)
 
     // Create the index.html
     pnme = path.Join(dir, "index.html")
