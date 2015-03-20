@@ -2,6 +2,8 @@
 
 Minimalist static blog generator built with Go
 
+![Alt gloggi](https://d30y9cdsu7xlg0.cloudfront.net/svg/bc9b3e47-b69a-4622-a725-7f4429824187.svg?Expires=1426848721&Signature=CxmMZIe~~2AWgQCXwb2kygAkMjMevrQzgrATnALOjPj6dXEDmg5dNqni6yv~DETZ-O-ZxMtx48dDWhyfoDFgtCGadxan5iiFxKzEzcb8J0GRMYhtFlRrdvEus11Wz~4pi6~eakbudZr3AsrB9iDWqyh0lWNdaIe4~VdKN89ie74_&Key-Pair-Id=APKAI5ZVHAXN65CHVU2Q)
+
 ## Structure
 
 In order for gloggi to work, the blog needs a basic structure:
