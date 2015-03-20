@@ -24,7 +24,7 @@ The source files for the blog posts are markdown. The filenames must be of the a
 
 There above templates require the following placeholders
 
-* Post: `date`, `name`, `content`
+* Post: `date`, `name`, `text`
 * Home: `posts`
 * Summary: `path`, `name`
 
