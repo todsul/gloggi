@@ -32,4 +32,10 @@ The syntax for placesholders is `{{ field }}`
 
 ## Command
 
-gloggi /path-to-blog
+To run gloggi on the example blog:
+
+`gloggi example`
+
+To run gloggi on your blog:
+
+`gloggi /path/to/blog`
