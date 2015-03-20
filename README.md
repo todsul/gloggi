@@ -18,17 +18,17 @@ In order for gloggi to work, the blog needs a basic structure:
 
 ## Posts
 
-The sources files for the blog posts are markdown. The filenames must be of the above format, including the date and name of the post.
+The sources files for the blog posts are markdown. The filenames must be of the above format, including the date and name of the post. The filename is split and used as metadata for the blog post.
 
 ## Templates
 
 There above templates require the following placeholders
 
-* Post: date, name, content
-* Home: posts
-* Summary: path, name
+* Post: `date`, `name`, `content`
+* Home: `posts`
+* Summary: `path`, `name`
 
-The syntax for placesholders is {{ field }}
+The syntax for placesholders is `{{ field }}`
 
 ## Command
 
