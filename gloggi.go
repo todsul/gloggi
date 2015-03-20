@@ -13,7 +13,7 @@ func main() {
     var (
         base []byte
         posts []*Post
-        pfmt string
+        pnme string
         snip []byte
     )
 
@@ -28,57 +28,57 @@ func main() {
     // STEP 2: Create the post output (see post.go)
 
     // Get the post template
-    pfmt = path.Join(dir,"/src/templates/post.html")
-    base = GetFile(pfmt)
+    pnme = path.Join(dir, "/src/templates/post.html")
+    base = GetFile(pnme)
 
     // Loop the source post files
-    pfmt = path.Join(dir,"/src/posts")
-    for _, info := range GetDirectoryListing(pfmt) {
+    pnme = path.Join(dir, "/src/posts")
+    for _, info := range GetDirectoryListing(pnme) {
 
         // Get the markdown
-        pfmt = path.Join(dir,"/src/posts",info.Name())
-        md := GetFile(pfmt)
+        filename := info.Name()
+        pnme = path.Join(dir, "/src/posts", filename)
+        md := GetFile(pnme)
 
         // Build the post
         post := new(Post)
-        post.date = post.GetDateFromFilename(info.Name())
-        post.name = post.GetNameFromFilename(info.Name())
-        post.slug = post.GetSlugFromFilename(info.Name())
-        post.html = post.GetHtmlFromMarkdown(base, md)
-        post.path = path.Join("/",post.slug)
+        post.SetDateFromFilename(filename)
+        post.SetNameFromFilename(filename)
+        post.SetSlugFromFilename(filename)
+        post.SetHtmlFromMarkdown(base, md)
 
         // Create the output directory
-        pfmt = path.Join(dir,post.slug)
-        CreateDirectory(pfmt)
+        pnme = path.Join(dir,post.slug)
+        CreateDirectory(pnme)
 
         // Create the output file
-        pfmt = path.Join(dir,post.slug,"index.html")
-        CreateFile(pfmt, post.html)
+        pnme = path.Join(dir,post.slug, "index.html")
+        CreateFile(pnme, post.html)
 
         // Collect for home page
         posts = append(posts, post)
 
-        fmt.Println("gloggi.write", pfmt)
+        fmt.Println("gloggi.write", pnme)
     }
 
     // STEP 3: Create the home index page
 
     // Get the home template
-    pfmt = path.Join(dir,"/src/templates/home.html")
-    base = GetFile(pfmt)
+    pnme = path.Join(dir, "/src/templates/home.html")
+    base = GetFile(pnme)
 
     // Get the summary snippet
-    pfmt = path.Join(dir,"/src/templates/_summary.html")
-    snip = GetFile(pfmt)
+    pnme = path.Join(dir, "/src/templates/_summary.html")
+    snip = GetFile(pnme)
 
     // Build the home page
     home := new(Home)
     home.html = home.GetHtmlFromPosts(base, snip, posts)
 
     // Create the index.html
-    pfmt = path.Join(dir,"index.html")
-    CreateFile(pfmt, home.html)
+    pnme = path.Join(dir, "index.html")
+    CreateFile(pnme, home.html)
 
-    fmt.Println("gloggi.write", pfmt)
+    fmt.Println("gloggi.write", pnme)
     fmt.Println("*** END", time.Now().Sub(start), "***")
 }

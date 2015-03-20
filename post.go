@@ -17,36 +17,37 @@ type Post struct {
 
 // Filename Functions
 
-func (p *Post) GetDateFromFilename(filename string) string {
+func (p *Post) SetDateFromFilename(filename string) {
     // Filename format is YYYYMMDD-name-of-post.md
 
     info := strings.Split(filename, ".md")[0]
     date := info[:4] + "-" + info[4:6] +  "-" + info[6:8]
 
-    return date
+    p.date = date
 }
 
-func (p *Post) GetNameFromFilename(filename string) string {
+func (p *Post) SetNameFromFilename(filename string) {
     // Filename format is YYYYMMDD-name-of-post.md
 
     info := strings.Split(filename, ".md")[0]
     name := strings.Replace(info[9:], "-", " ", -1)
 
-    return  name
+    p.name = name
 }
 
-func (p *Post) GetSlugFromFilename(filename string) string {
+func (p *Post) SetSlugFromFilename(filename string) {
     // Filename format is YYYYMMDD-name-of-post.md
 
     info := strings.Split(filename, ".md")[0]
     slug := strings.ToLower(info[9:])
 
-    return slug
+    p.slug = slug
+    p.path = "/" + p.slug
 }
 
 // Content Functions
 
-func (p *Post) GetHtmlFromMarkdown(base []byte, md []byte) []byte {
+func (p *Post) SetHtmlFromMarkdown(base []byte, md []byte) {
     // Using github.com/russross/blackfriday to translate markdown
 
     html := base
@@ -56,5 +57,5 @@ func (p *Post) GetHtmlFromMarkdown(base []byte, md []byte) []byte {
     html = bytes.Replace(html, []byte("{{ name }}"), []byte(p.name), -1)
     html = bytes.Replace(html, []byte("{{ text }}"), []byte(text), -1)
 
-    return html
+    p.html = html
 }

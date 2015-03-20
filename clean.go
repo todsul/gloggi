@@ -4,21 +4,21 @@ import (
     "path"
 )
 
-var pfmt string
+var pnme string
 
 func CleanPostOutput(dir string) {
     for _, info := range GetDirectoryListing(dir) {
 
         if (info.IsDir() && info.Name() != "src" && info.Name() != ".git") {
 
-            pfmt = path.Join(dir,info.Name())
-            RemoveDirectory(pfmt)
+            pnme = path.Join(dir,info.Name())
+            RemoveDirectory(pnme)
         }
     }
 }
 
 func CleanHomeOutput(dir string) {
 
-    pfmt = path.Join(dir,"index.html")
-    RemoveFile(pfmt)
+    pnme = path.Join(dir, "index.html")
+    RemoveFile(pnme)
 }
