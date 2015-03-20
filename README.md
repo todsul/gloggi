@@ -2,6 +2,8 @@
 
 Minimalist static blog generator built with Go
 
+_(Glöggi is the Estonian version of gluhwein)_
+
 ## Structure
 
 In order for gloggi to work, the blog needs a basic structure:
