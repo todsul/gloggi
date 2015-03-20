@@ -39,3 +39,11 @@ To run gloggi on the example blog:
 To run gloggi on your blog:
 
 `gloggi /path/to/blog`
+
+## TODO
+
+* Compile LessCSS
+* Handle category folders
+* Write category index.html files
+* Include templates for header, footer, etc
+* Use for the prod version of todsul.com
