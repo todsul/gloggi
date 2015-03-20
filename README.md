@@ -16,9 +16,7 @@ In order for gloggi to work, the blog needs a basic structure:
         |- post.html
 ```
 
-## Posts
-
-The sources files for the blog posts are markdown. The filenames must be of the above format, including the date and name of the post. The filename is split and used as metadata for the blog post.
+The source files for the blog posts are markdown. The filenames must be of the above format, including the date and name of the post. The filename is split and used as metadata for the blog post.
 
 ## Templates
 
