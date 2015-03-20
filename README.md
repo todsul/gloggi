@@ -40,7 +40,7 @@ To run gloggi on your blog:
 
 `gloggi /path/to/blog`
 
-## TODO
+## Todo
 
 * Compile LessCSS
 * Handle category folders
