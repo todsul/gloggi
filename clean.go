@@ -7,17 +7,14 @@ import (
 // Clean all output directories except src and .git. It has to be this brutal
 // because to work as a static blog, the main posts need to be in the root
 // directory and not an output directory, which would affect the urls.
-func CleanPostOutput(dir string) {
+func ProcessClean(dir string) {
+    // STEP 1 Remove non-source directories
     for _, info := range GetDirectoryListing(dir) {
-        if (info.IsDir() && info.Name() != "src" && info.Name() != ".git") {
-            pnme := path.Join(dir,info.Name())
-            RemoveDirectory(pnme)
+        if info.IsDir() && info.Name() != "src" && info.Name() != ".git" {
+            RemoveDirectory(path.Join(dir,info.Name()))
         }
     }
-}
 
-// Clean the home output index page
-func CleanHomeOutput(dir string) {
-    pnme := path.Join(dir, "index.html")
-    RemoveFile(pnme)
+    // STEP 2 Remove home page
+    RemoveFile(path.Join(dir, "index.html"))
 }

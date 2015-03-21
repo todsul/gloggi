@@ -1,2 +1,4 @@
-/example/my-blog-post
+/example/category*
+/example/category*/*
+/example/my-first-blog-post*
 /example/index.html

@@ -10,7 +10,7 @@ type Home struct {
 
 // Set the home html by looping through the posts, using the summary template
 // to create post summaries, then decorating the result with the base template.
-func (h *Home) GetHtmlFromPosts(html []byte, summ []byte, posts []*Post) []byte {
+func (h *Home) SetHtmlFromPosts(html []byte, summ []byte, posts []*Post) {
     var summaries []byte
 
     // Loop through Post collection
@@ -27,5 +27,12 @@ func (h *Home) GetHtmlFromPosts(html []byte, summ []byte, posts []*Post) []byte 
     // Replace base template variables
     html = bytes.Replace(html, []byte("{{ posts }}"), summaries, -1)
 
-    return html
+    h.html = html
+}
+
+func ProcessHome(html []byte, summ []byte, out string, posts []*Post) {
+    home := new(Home)
+    home.SetHtmlFromPosts(html, summ, posts)
+
+    CreateFile(out + "/index.html", home.html)
 }

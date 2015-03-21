@@ -9,11 +9,13 @@ import (
 // Create a new directory
 func CreateDirectory(path string) {
     os.Mkdir(path, 0750)
+    fmt.Println("gloggi.write", path)
 }
 
 // Create a new file
 func CreateFile(path string, output []byte) {
     ioutil.WriteFile(path, output, 0750)
+    fmt.Println("gloggi.write", path)
 }
 
 // Get a directory listing and return the file info

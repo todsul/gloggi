@@ -2,6 +2,7 @@ package main
 
 import (
     "bytes"
+    "path"
     "strings"
     "github.com/russross/blackfriday"
 )
@@ -15,31 +16,31 @@ type Post struct {
     slug string
 }
 
-// Extract the post date from the filename, which holds the meta data. This
+// Extract the post date from the pathname, which holds the meta data. This
 // avoids including foreign data in the raw post markdown file.
 // Filename format is YYYYMMDD-name-of-post.md
-func (p *Post) SetDateFromFilename(filename string) {
-    info := strings.Split(filename, ".md")[0]
+func (p *Post) SetDateFromFilename(pathname string) {
+    info := strings.Split(pathname, ".md")[0]
     date := info[:4] + "-" + info[4:6] +  "-" + info[6:8]
 
     p.date = date
 }
 
-// Extract the post name from the filename, which holds the meta data. This
+// Extract the post name from the pathname, which holds the meta data. This
 // avoids including foreign data in the raw post markdown file.
 // Filename format is YYYYMMDD-name-of-post.md
-func (p *Post) SetNameFromFilename(filename string) {
-    info := strings.Split(filename, ".md")[0]
+func (p *Post) SetNameFromFilename(pathname string) {
+    info := strings.Split(pathname, ".md")[0]
     name := strings.Replace(info[9:], "-", " ", -1)
 
     p.name = name
 }
 
-// Extract the post slug from the filename, which holds the meta data. This
+// Extract the post slug from the pathname, which holds the meta data. This
 // avoids including foreign data in the raw post markdown file.
 // Filename format is YYYYMMDD-name-of-post.md
-func (p *Post) SetSlugFromFilename(filename string) {
-    info := strings.Split(filename, ".md")[0]
+func (p *Post) SetSlugFromFilename(pathname string) {
+    info := strings.Split(pathname, ".md")[0]
     slug := strings.ToLower(info[9:])
 
     p.slug = slug
@@ -57,4 +58,43 @@ func (p *Post) SetHtmlFromMarkdown(html []byte, md []byte) {
     html = bytes.Replace(html, []byte("{{ text }}"), []byte(text), -1)
 
     p.html = html
+}
+
+// Loop through source directories recursively to create category directories,
+// post directories, and index html files. Also works for uncategorized posts.
+func ProcessPosts(base []byte, in string, out string) []*Post {
+    var posts []*Post
+
+    for _, info := range GetDirectoryListing(in) {
+        pathname := info.Name()
+
+        if info.IsDir() {
+            // Create category directory
+            CreateDirectory(path.Join(out, pathname))
+
+            // Process category posts recursively
+            ProcessPosts(base, path.Join(in, pathname), path.Join(out, pathname))
+        } else {
+            // Get the markdown
+            md := GetFile(path.Join(in, pathname))
+
+            // Build the post
+            post := new(Post)
+            post.SetDateFromFilename(pathname)
+            post.SetNameFromFilename(pathname)
+            post.SetSlugFromFilename(pathname)
+            post.SetHtmlFromMarkdown(base, md)
+
+            // Create the output directory
+            CreateDirectory(path.Join(out,post.slug))
+
+            // Create the output file
+            CreateFile(path.Join(out,post.slug, "index.html"), post.html)
+
+            // Append to Post collection
+            posts = append(posts, post)
+        }
+    }
+
+    return posts
 }
