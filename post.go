@@ -44,7 +44,6 @@ func (p *Post) SetSlugFromFilename(pathname string) {
     slug := strings.ToLower(info[9:])
 
     p.slug = slug
-    p.path = "/" + p.slug
 }
 
 
@@ -82,6 +81,7 @@ func ProcessPosts(base []byte, in string, out string, posts Posts) Posts {
             post.SetNameFromFilename(pathname)
             post.SetSlugFromFilename(pathname)
             post.SetHtmlFromMarkdown(base, md)
+            post.path = "/" + path.Join(out,post.slug)
 
             // Create the output directory
             CreateDirectory(path.Join(out,post.slug))
