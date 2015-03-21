@@ -62,9 +62,7 @@ func (p *Post) SetHtmlFromMarkdown(html []byte, md []byte) {
 
 // Loop through source directories recursively to create category directories,
 // post directories, and index html files. Also works for uncategorized posts.
-func ProcessPosts(base []byte, in string, out string) []*Post {
-    var posts []*Post
-
+func ProcessPosts(base []byte, in string, out string, posts Posts) Posts {
     for _, info := range GetDirectoryListing(in) {
         pathname := info.Name()
 
@@ -73,7 +71,7 @@ func ProcessPosts(base []byte, in string, out string) []*Post {
             CreateDirectory(path.Join(out, pathname))
 
             // Process category posts recursively
-            ProcessPosts(base, path.Join(in, pathname), path.Join(out, pathname))
+            posts = ProcessPosts(base, path.Join(in, pathname), path.Join(out, pathname), posts)
         } else {
             // Get the markdown
             md := GetFile(path.Join(in, pathname))
@@ -92,9 +90,23 @@ func ProcessPosts(base []byte, in string, out string) []*Post {
             CreateFile(path.Join(out,post.slug, "index.html"), post.html)
 
             // Append to Post collection
-            posts = append(posts, post)
+            posts = append(posts, *post)
         }
     }
 
     return posts
+}
+
+type Posts []Post
+
+func (slice Posts) Len() int {
+    return len(slice)
+}
+
+func (slice Posts) Less(i, j int) bool {
+    return slice[i].date > slice[j].date;
+}
+
+func (slice Posts) Swap(i, j int) {
+    slice[i], slice[j] = slice[j], slice[i]
 }

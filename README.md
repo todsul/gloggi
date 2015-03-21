@@ -55,9 +55,3 @@ To run gloggi on the example blog:
 To run gloggi on your blog:
 
 `gloggi /path/to/blog`
-
-## Todo
-
-* Compile LessCSS
-* Include templates for header, footer, etc
-* Use for the prod version of todsul.com

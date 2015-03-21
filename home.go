@@ -2,6 +2,7 @@ package main
 
 import (
     "bytes"
+    "sort"
 )
 
 type Home struct {
@@ -10,8 +11,11 @@ type Home struct {
 
 // Set the home html by looping through the posts, using the summary template
 // to create post summaries, then decorating the result with the base template.
-func (h *Home) SetHtmlFromPosts(html []byte, summ []byte, posts []*Post) {
+func (h *Home) SetHtmlFromPosts(html []byte, summ []byte, posts Posts) {
     var summaries []byte
+
+    // Sort the Posts
+    sort.Sort(posts)
 
     // Loop through Post collection
     for _, post := range posts {
@@ -30,7 +34,7 @@ func (h *Home) SetHtmlFromPosts(html []byte, summ []byte, posts []*Post) {
     h.html = html
 }
 
-func ProcessHome(html []byte, summ []byte, out string, posts []*Post) {
+func ProcessHome(html []byte, summ []byte, out string, posts Posts) {
     home := new(Home)
     home.SetHtmlFromPosts(html, summ, posts)
 

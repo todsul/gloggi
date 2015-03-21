@@ -10,7 +10,7 @@ import (
 func ProcessClean(dir string) {
     // STEP 1 Remove non-source directories
     for _, info := range GetDirectoryListing(dir) {
-        if info.IsDir() && info.Name() != "src" && info.Name() != ".git" {
+        if info.IsDir() && info.Name() != "src" && info.Name() != "assets" && info.Name() != ".git" {
             RemoveDirectory(path.Join(dir,info.Name()))
         }
     }

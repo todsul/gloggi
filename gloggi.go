@@ -6,6 +6,8 @@ import (
     "time"
 )
 
+var posts Posts
+
 // The main gloggi process in a step-by-step format to clean the output,
 // process the raw blog post content, and create index pages.
 func main() {
@@ -31,7 +33,7 @@ func main() {
 
     // STEP 2: Create post output (see post.go)
 
-    posts := ProcessPosts(templates["post"], paths["in"], paths["out"])
+    posts := ProcessPosts(templates["post"], paths["in"], paths["out"], posts)
 
     // STEP 3: Create home output (see home.go)
 
